@@ -13,11 +13,13 @@ var assets embed.FS
 
 func main() {
 	app := NewApp()
-	
+
 	err := wails.Run(&options.App{
-		Title:  "app",
-		Width:  1024,
-		Height: 768,
+		Title:     "app",
+		Width:     1024,
+		Height:    768,
+		MinWidth:  1024,
+		MinHeight: 768,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

@@ -19,7 +19,7 @@ body {
     user-select: none;
 }
 
-.container-form button {
+.container-form .button {
     background:none;
     border: none;
     border-radius: 15px;
@@ -27,5 +27,12 @@ body {
     color: white;
     padding: 15px;
     font-size: large;
+    cursor: pointer;
+}
+
+.have_button {
+    background: none;
+    border: none;
+    color: black;
     cursor: pointer;
 }
