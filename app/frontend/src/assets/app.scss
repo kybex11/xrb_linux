@@ -28,6 +28,7 @@ body {
     padding: 15px;
     font-size: large;
     cursor: pointer;
+    margin: 10px;
 }
 
 .have_button {
@@ -35,4 +36,15 @@ body {
     border: none;
     color: black;
     cursor: pointer;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.menu-content {
+    display: block;
 }

@@ -1,13 +1,22 @@
-import React from 'react'
 import {createRoot} from 'react-dom/client'
 import App from './App'
+import {
+    createBrowserRouter,
+    RouterProvider,
+    Route,
+    //Link
+} from 'react-router-dom';
 
-const container = document.getElementById('root')
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: ( <App/> )
+    },
+])
 
-const root = createRoot(container!)
+//<Link to="about">About Us</Link>
 
-root.render(
-    <React.StrictMode>
-        <App/>
-    </React.StrictMode>
-)
+
+createRoot(document.getElementById("root")!).render(
+    <RouterProvider router={router} />
+  );

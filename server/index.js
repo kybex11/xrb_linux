@@ -22,15 +22,20 @@ try {
 
 app.post('/register', (req, res) => {
   const { nickname, email, passwd } = req.body;
-  users[nickname] = { email, passwd };
-  fs.writeFile('easyStorage.json', JSON.stringify(users), (err) => {
-    if (err) {
+  
+  if (users[nickname]) {
+    res.json({ success: false, message: 'Nickname already taken'});
+  } else {
+    users[nickname] = { email, passwd };
+    fs.writeFile('easyStorage.json', JSON.stringify(users), (err) => {
+      if (err) {
       console.error(err);
-      res.status(500).send('Error registering user');
+      res.json({ success: false, message: 'Failed to register'});
     } else {
-      res.send('User registered successfully');
+      res.json({ success: true, message: 'Registered successfully!'});
     }
   });
+  }
 });
 
 app.post('/login', (req, res) => {
@@ -40,7 +45,7 @@ app.post('/login', (req, res) => {
   } else {
     res.json({ success: false, message: 'Invalid username or password' });
   }
-});
+})
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');

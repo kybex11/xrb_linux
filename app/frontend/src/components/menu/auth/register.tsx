@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { SaveCredentials } from '../../../../wailsjs/go/main/App';
 
 interface FormData {
   nickname: string;
@@ -6,11 +7,20 @@ interface FormData {
   passwd: string;
 }
 
+interface ResponseData {
+  success: boolean;
+  message: string;
+}
+
 export default function Register() {
   const usernameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const retryPasswordInputRef = useRef<HTMLInputElement>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [saveUsername, setSaveUsername] = useState('');
+  const [savePassword, setSavePassword] = useState('');
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
@@ -42,13 +52,42 @@ export default function Register() {
       },
       body: JSON.stringify(formData)
     })
-      .then((response: Response) => response.json())
-      .then((data: any) => console.log(data))
-      .catch((error: any) => console.error(error));
+    .then((response: Response) => response.json())
+    .then((data: ResponseData) => {
+      if (data.success) {
+        setIsAuthenticated(true);
+        setSavePassword(formData.passwd);
+        setSaveUsername(formData.nickname);
+      } else {
+        console.error(data.message);
+        const status = document.getElementById('status');
+        if (status){
+          status.innerHTML = data.message;
+        }
+      }
+    })
+    .catch((error: any) => console.error(error));
   };
+
+  const Redir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    SaveCredentials(saveUsername, savePassword);
+    console.log(`registered: ${saveUsername} ${savePassword}`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+    
+  }
 
   return (
     <>
+    {isAuthenticated ? (
+        <>
+          <br />
+          <h1>User registered.</h1>
+          <button className='button' onClick={Redir}>Goto menu!</button>
+        </>
+      ) : (
       <div className="container-form">
         <br />
         <h1>Register</h1>
@@ -62,10 +101,12 @@ export default function Register() {
         <input type="password" ref={retryPasswordInputRef} name="retryPassword" placeholder="Retry Password" />
         <br /><br />
         <button className='button' onClick={handleSubmit}>Reg-In</button>
+        <p id='status'></p>
         <br /><br />
         <button className='have_button'>You have account?</button>
         <br />
       </div>
+      )}
     </>
   );
 }

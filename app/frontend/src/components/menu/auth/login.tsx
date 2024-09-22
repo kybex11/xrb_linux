@@ -1,5 +1,8 @@
 import '../../../assets/overflow.scss';
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import Cookies from 'js-cookie';
+import Menu from '../views/menu';
+import { SaveCredentials } from '../../../../wailsjs/go/main/App';
 
 interface FormData {
   nickname: string;
@@ -12,16 +15,20 @@ interface ResponseData {
 }
 
 export default function Login() {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const usernameInput = useRef<HTMLInputElement>(null);
+  const passwordInput = useRef<HTMLInputElement>(null);
+  const [displayUsername, setDisplayUsername] = useState('');
+  const [saveUsername, setSaveUsername] = useState('');
+  const [savePassword, setSavePassword] = useState('');
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault(); // prevent default form submission
+    event.preventDefault();
 
-    const usernameInput = document.querySelector('input[type="username"]') as HTMLInputElement;
-    const passwordInput = document.querySelector('input[type="password"]') as HTMLInputElement;
+    const username = usernameInput.current?.value;
+    const password = passwordInput.current?.value;
 
-    const username = usernameInput.value;
-    const password = passwordInput.value;
+    if (!username || !password) return;
 
     const formData: FormData = {
       nickname: username,
@@ -39,33 +46,52 @@ export default function Login() {
       .then((data: ResponseData) => {
         if (data.success) {
           setIsAuthenticated(true);
+          setDisplayUsername(formData.nickname);
+          setSavePassword(formData.passwd);
+          setSaveUsername(formData.nickname);
         } else {
           console.error(data.message);
+          const status = document.getElementById('status');
+          if (status){
+            status.innerHTML = data.message;
+          }
         }
       })
       .catch((error: any) => console.error(error));
   };
 
+  const ItsMe = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    SaveCredentials(saveUsername, savePassword);
+    console.log(`saved: ${saveUsername} ${savePassword}`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+    
+  }
+
   return (
     <>
       {isAuthenticated ? (
-        <div className="menu">
-          <h1>Menu</h1>
-          {/* Add menu items here */}
-        </div>
+        <>
+          <br />
+          <h1>{displayUsername}</h1>
+          <button className='button' onClick={ItsMe}>Its you?</button>
+        </>
       ) : (
-        <div className="container-form">
+          <>
           <br />
           <h1>Login</h1>
           <br />
-          <input type="username" placeholder='Username'/>
+          <input ref={usernameInput} type="text" placeholder='Username'/>
           <br /><br />
-          <input type="password" placeholder='Password'/>
+          <input ref={passwordInput} type="password" placeholder='Password'/>
           <br /><br />
           <button className='button' onClick={handleSubmit}>Log-In</button>
+          <p id='status'></p>
           <br /><br />
           <button className='have_button'>You don't have account?</button>
-        </div>
+          </>
       )}
     </>
   );
