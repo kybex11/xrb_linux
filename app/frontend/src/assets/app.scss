@@ -5,6 +5,8 @@ body {
     align-items: center;
     text-align: center;
     display: flex;
+    margin: 0;
+    padding: 0;
 }
 
 .container-form {
@@ -47,4 +49,19 @@ body {
 
 .menu-content {
     display: block;
+}
+
+.navbar {
+    background-color: white;
+    color: black;
+    width: 100vw;
+    height: 30px;
+    left: 0;
+    position: fixed;
+}
+
+.navbar button {
+    border: none;
+    background: none;
+    cursor: pointer;
 }
