@@ -7,10 +7,7 @@ interface Place {
     return (
       <>
         {game.map((game: Place) => (
-          <div key={game.id}>
-            <button className="game-button">{game.name}</button> ID: {game.id}
-            <br /><br />
-          </div>
+          <div key={game.id}>{game.name}</div>
         ))}
       </>
     );

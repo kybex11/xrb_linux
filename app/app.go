@@ -92,3 +92,20 @@ func (a *App) SaveCredentials(username, passwd string) error {
 
 	return nil
 }
+
+func (a *App) DeleteCredentials() error {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+	credentialsFile := filepath.Join(homeDir, ".xrblx-autosave")
+
+	err = os.Remove(credentialsFile)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+//https://www.blackbox.ai/chat/uxsYdWB
