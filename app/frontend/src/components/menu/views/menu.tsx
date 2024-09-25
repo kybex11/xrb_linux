@@ -1,5 +1,4 @@
 import Navbar from "./navbar";
-import { DeleteCredentials } from "../../../../wailsjs/go/main/App";
 import GameInfo from "../components/game_info";
 import Settings from "./settings";
 import Studio from "./studio"; 
@@ -16,13 +15,6 @@ export default function Menu() {
     { id: 3, name: 'Apeirophobia' },
   ];
 
-  const DeleteCredentialsFunc = () => {
-    DeleteCredentials();
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  }
-
   return (
     <>
       <Navbar/>
@@ -30,7 +22,6 @@ export default function Menu() {
           <div className="menu-content">
             <div className="menu-view">
               <div className="menu-friends">
-                <button onClick={DeleteCredentialsFunc}>Leave from the account</button>
                 <GameInfo game={places}/>
               </div>
               <div className="menu-games"></div>

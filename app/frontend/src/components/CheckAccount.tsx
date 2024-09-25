@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import NoAccount from './menu/noaccount';
 import Menu from './menu/views/menu';
 import { LoadUsername, LoadPasswd } from '../../wailsjs/go/main/App';
+import TechnicalWork from './menu/technical_work';
 
 interface CheckAccountProps {}
 
@@ -18,7 +19,8 @@ interface ResponseData {
 
 const CheckAccount: React.FC<CheckAccountProps> = () => {
   const [formData, setFormData] = useState<FormData>({ nickname: '', passwd: '' });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>();
+  const [isServerDown, setIsServerDown] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,15 +47,21 @@ const CheckAccount: React.FC<CheckAccountProps> = () => {
             setIsLoggedIn(true);
           } else {
             setIsLoggedIn(false);
+
           }
+
         } catch (error) {
           console.error(error);
-          setIsLoggedIn(false);
+          setIsServerDown(true);
         }
       }
     };
     fetchData();
   }, [formData]);
+
+  if (isServerDown) {
+    return <TechnicalWork/>
+  }
 
   return isLoggedIn ? <Menu /> : <NoAccount />;
 };
