@@ -36,7 +36,6 @@ export default function EditorMenu() {
             )}
             {showCreate && <Create />}
             {showOpen && <Open />}
-            <Editor/>
         </>
     );
 }

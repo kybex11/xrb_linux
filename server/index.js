@@ -8,10 +8,13 @@ app.use(bodyParser.json());
 app.use(cors());
 
 let users = {};
+let levels = {};
 
 try {
   const usersData = fs.readFileSync('easyStorage.json', 'utf8');
   users = JSON.parse(usersData);
+  const levelsData = fs.readFileSync('levels.json', 'utf-8');
+  levels = JSON.parse(levelsData);
 } catch (err) {
   console.error(err);
 }
@@ -33,6 +36,23 @@ const registerUser = (req, res) => {
     });
   }
 };
+
+const newLevel = (req, res) => {
+  const { name, description, id } = req.body;
+  if (levels[id]) {
+    res.json({ success: false, message: 'Level with this ID already taken'});
+  } else {
+    levels[id] = { name, description};
+    fs.writeFile('levels.json', JSON.stringify(levels), (err) => {
+      if (err) {
+        console.error(err);
+        res.json({ success: false, message: 'Failed to register level'});
+      } else {
+        res.json({ success: true, message: 'Registered successfully!'});
+      }
+    });
+  }
+}
 
 const loginUser = (req, res) => {
   const { nickname, passwd } = req.body;
@@ -71,10 +91,23 @@ const getFriends = (req, res) => {
   }
 };
 
+const getLevel = (req, res) => {
+  const id = req.params.id;
+
+  if (levels[id]) {
+    res.json({ success: true, message: ''});
+  } else {
+    res.json({ success: false, message: ''});
+  }
+}
+
+app.get('/getLevel/:id', getLevel);
 app.post('/register', registerUser);
 app.post('/login', loginUser);
+app.post('/newlevevl', newLevel);
 app.post('/addfriends', addFriend);
 app.get('/getfriends/:nickname', getFriends);
+
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');
