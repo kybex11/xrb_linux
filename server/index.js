@@ -38,11 +38,11 @@ const registerUser = (req, res) => {
 };
 
 const newLevel = (req, res) => {
-  const { name, description, id } = req.body;
+  const { name, description, id, creator } = req.body;
   if (levels[id]) {
     res.json({ success: false, message: 'Level with this ID already taken'});
   } else {
-    levels[id] = { name, description};
+    levels[id] = { name, description, id, creator };
     fs.writeFile('levels.json', JSON.stringify(levels), (err) => {
       if (err) {
         console.error(err);
@@ -104,11 +104,11 @@ const getLevel = (req, res) => {
 app.get('/getLevel/:id', getLevel);
 app.post('/register', registerUser);
 app.post('/login', loginUser);
-app.post('/newlevevl', newLevel);
+app.post('/newlevel', newLevel);
 app.post('/addfriends', addFriend);
 app.get('/getfriends/:nickname', getFriends);
 
 
-app.listen(3000, () => {
+app.listen(3300, () => {
   console.log('Server started on port 3000');
 });
