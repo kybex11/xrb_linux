@@ -1,7 +1,16 @@
 import * as THREE from 'three';
 import { useRef, useEffect } from 'react';
-import { Renderer, SetScreenRendererSize, cube, useHooks } from '../engine/engine';
+import { CreateCapsulePlayer, Renderer, SetScreenRendererSize, cube, handleControl, useHooks } from '../engine/engine';
 import '../../assets/editor.scss';
+
+interface Player {
+  speed: number;
+  x: number;
+  y: number;
+  z: number;
+}
+
+let returnPlayer;
 
 export default function Editor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -10,6 +19,14 @@ export default function Editor() {
     if (!canvasRef.current) {
       throw new Error('Canvas element not found!');
     }
+
+    const player: Player = {
+      speed: 0.0010,
+      x: 0,
+      y: 0,
+      z: 0,
+    };
+
     const canvas = canvasRef.current;
     const scene = new THREE.Scene();
     console.log('Scene created:', scene);
@@ -17,6 +34,9 @@ export default function Editor() {
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     console.log('Camera created:', camera);
 
+    
+    returnPlayer = handleControl(player);
+    CreateCapsulePlayer(camera, scene, returnPlayer);
     const renderer = Renderer(canvas);
     SetScreenRendererSize(renderer);
     renderer.setAnimationLoop( animate );
@@ -27,9 +47,10 @@ export default function Editor() {
     camera.position.z = 5;
     cubeMesh.rotation.y = 1;
     cubeMesh.position.y = -1;
+    cubeMesh.position.z = -4;
     function animate() {
-        
-        renderer.render( scene, camera );
+      returnPlayer = handleControl(player);
+      renderer.render( scene, camera );
     }
 
     animate();
