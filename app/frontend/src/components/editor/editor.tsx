@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { useRef, useEffect } from 'react';
-import { CreateCapsulePlayer, Renderer, SetScreenRendererSize, cube, handleControl, useHooks } from '../engine/engine';
+import { useRef, useEffect, useState } from 'react';
+import { CreatePerspectiveCamera, CreateCapsulePlayer, Renderer, SetScreenRendererSize, cube, handleControl, useHooks, SetAnimationLoop } from '../engine/engine';
 import '../../assets/editor.scss';
 
 interface Player {
@@ -8,12 +8,16 @@ interface Player {
   x: number;
   y: number;
   z: number;
+  rotX: number;
+  rotY: number;
+  rotZ: number;
 }
 
 let returnPlayer;
 
 export default function Editor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isShowOther, setIsShowOther] = useState(false);
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -25,21 +29,24 @@ export default function Editor() {
       x: 0,
       y: 0,
       z: 0,
+      rotX: 0,
+      rotY: 0,
+      rotZ: 0,
     };
 
     const canvas = canvasRef.current;
     const scene = new THREE.Scene();
     console.log('Scene created:', scene);
 
-    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    const camera = CreatePerspectiveCamera();
     console.log('Camera created:', camera);
 
     
     returnPlayer = handleControl(player);
     CreateCapsulePlayer(camera, scene, returnPlayer);
     const renderer = Renderer(canvas);
-    SetScreenRendererSize(renderer);
-    renderer.setAnimationLoop( animate );
+    SetScreenRendererSize();
+    SetAnimationLoop(animate);
 
     const createCube = cube();
     const cubeMesh: THREE.Mesh = createCube(scene);
@@ -61,7 +68,16 @@ export default function Editor() {
   return (
     <div>
       <p id='fps'></p>
-      <canvas ref={canvasRef} id="canvas" width="400" height="400" />
+      {isShowOther ? (
+        <>
+        <h1>other</h1>
+        </>
+      ) : (
+        <>
+        <canvas ref={canvasRef} id="canvas" width="400" height="400" />
+        </>
+      )}
+      
     </div>
   );
 }

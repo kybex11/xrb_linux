@@ -1,17 +1,23 @@
 import * as THREE from 'three';
 
+let renderer: any;
+
 export function Renderer(canvas: any) {
-    const renderer = new THREE.WebGLRenderer({
+    renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias: true
       });
     return renderer;
 }
 
-export function SetScreenRendererSize(renderer: THREE.Renderer) {
+export function SetScreenRendererSize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-export function SetCustomRendererSize(renderer: THREE.Renderer, width: number, height: number) {
+export function SetCustomRendererSize(width: number, height: number) {
     renderer.setSize( width, height );
+}
+
+export function SetAnimationLoop(func: any) {
+    renderer.setAnimationLoop( func );
 }

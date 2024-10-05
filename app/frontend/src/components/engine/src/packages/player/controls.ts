@@ -10,7 +10,7 @@ interface Player {
 let player_: Player;
 let stopUpdateSpeed = true;
 
-import { DeChangePosition } from "./player";
+import { DeChangePosition, DeChangeRotation } from "./player";
 
 export function handleControl(player: Player) {
     const speed = player.speed;
@@ -43,8 +43,6 @@ export function handleControl(player: Player) {
                 stopUpdateSpeed = true;
                 updateSpeed();
                 break;
-            default:
-                console.log("nothing");
         
         }
     });
@@ -90,6 +88,7 @@ export function handleControl(player: Player) {
         player.rotZ += player.rotZ * 0.1;
 
         DeChangePosition(player); 
+        DeChangeRotation(player);
 
         requestAnimationFrame(updatePosition);
     }
