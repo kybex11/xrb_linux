@@ -1,3 +1,3 @@
-export function re() {
-    console.log('re');
+export function CreateRenderGraph() {
+    console.log("re");
 }

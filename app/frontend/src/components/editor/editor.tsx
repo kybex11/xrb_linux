@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { useRef, useEffect, useState } from 'react';
-import { CreatePerspectiveCamera, CreateCapsulePlayer, Renderer, SetScreenRendererSize, cube, handleControl, useHooks, SetAnimationLoop } from '../engine/engine';
+import { CreatePerspectiveCamera, CreateCapsulePlayer, Renderer, SetScreenRendererSize, cube, handleControl, useHooks, SetAnimationLoop, CreateScene } from '../engine/engine';
 import '../../assets/editor.scss';
 
 interface Player {
@@ -35,13 +35,13 @@ export default function Editor() {
     };
 
     const canvas = canvasRef.current;
-    const scene = new THREE.Scene();
+    const scene = CreateScene();
+
     console.log('Scene created:', scene);
 
     const camera = CreatePerspectiveCamera();
     console.log('Camera created:', camera);
 
-    
     returnPlayer = handleControl(player);
     CreateCapsulePlayer(camera, scene, returnPlayer);
     const renderer = Renderer(canvas);
@@ -58,6 +58,9 @@ export default function Editor() {
     function animate() {
       returnPlayer = handleControl(player);
       renderer.render( scene, camera );
+      const d = document.getElementById('fps');
+      if (d)
+        d.innerHTML = `X: ${player.x}, Y: ${player.y}, Z: ${player.z}`;
     }
 
     animate();

@@ -6,6 +6,7 @@ import { Renderer, SetCustomRendererSize, SetScreenRendererSize, SetAnimationLoo
 import { handleControl, removeHandler } from './src/packages/player/controls';
 import { DeChangePosition, CreateCapsulePlayer, DeChangeRotation } from './src/packages/player/player';
 import { CreatePerspectiveCamera, CreateOrthographicCamera } from './src/packages/camera/camera';
+import { CreateScene } from './src/packages/scene/scene';
 
 export { useHooks, removeHooks }; 
 export { playAudio };
@@ -15,3 +16,4 @@ export { Renderer, SetCustomRendererSize, SetScreenRendererSize, SetAnimationLoo
 export { handleControl, removeHandler };
 export { DeChangePosition, CreateCapsulePlayer, DeChangeRotation };
 export { CreatePerspectiveCamera, CreateOrthographicCamera };
+export { CreateScene };

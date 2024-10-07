@@ -28,20 +28,26 @@ export function handleControl(player: Player) {
             case 'w':
                 moveZ = speed;
                 stopUpdateSpeed = true;
-                updateSpeed();
+                //updateSpeed();
+                console.log('w a');
                 break;
             case 'a': 
                 moveZ = -speed;
                 stopUpdateSpeed = true;
-                updateSpeed();
+                //updateSpeed();
+                console.log('a a');
                 break;
             case 's':
                 moveX = -speed;
+                stopUpdateSpeed = true;
+                //updateSpeed();
+                console.log('s a');
                 break;
             case 'd':
                 moveX = speed;
                 stopUpdateSpeed = true;
-                updateSpeed();
+                //updateSpeed();
+                console.log('d a');
                 break;
         
         }
@@ -50,15 +56,23 @@ export function handleControl(player: Player) {
     window.addEventListener('keyup', (ev) => {
         switch(ev.key) {
             case 'w':
+                stopUpdateSpeed = false;
+                //updateSpeed();
+                moveZ = 0;
+                break;
             case 's':
                 stopUpdateSpeed = false;
-                updateSpeed();
+                //updateSpeed();
                 moveZ = 0;
                 break;
             case 'a':
+                stopUpdateSpeed = false;
+                //updateSpeed();
+                moveX = 0;
+                break;
             case 'd':
                 stopUpdateSpeed = false;
-                updateSpeed();
+                //updateSpeed();
                 moveX = 0;
                 break;
         }
