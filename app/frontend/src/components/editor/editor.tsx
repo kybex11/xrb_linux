@@ -43,7 +43,7 @@ export default function Editor() {
     const camera = CreatePerspectiveCamera();
     console.log('Camera created:', camera);
 
-    SetSceneBackground('../../assets/sky.jpg');
+    //SetSceneBackground('./sky.jpg');
 
     returnPlayer = handleControl(player);
     CreateCapsulePlayer(camera, scene, returnPlayer);
@@ -60,7 +60,7 @@ export default function Editor() {
     cubeMesh.position.z = -4;
 
     function animate() {
-      //returnPlayer = handleControl(player);
+      returnPlayer = handleControl(player);
       renderer.render( scene, camera );
       const d = document.getElementById('fps');
       if (d)
