@@ -8,5 +8,10 @@ export function CreateScene() {
 }
 
 export function SetSceneBackground(path: any) {
-    scene.background
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(path);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( 4, 4 );
+    scene.background = texture;
 }

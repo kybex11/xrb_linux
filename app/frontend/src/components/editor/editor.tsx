@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { useRef, useEffect, useState } from 'react';
 import { CreatePerspectiveCamera, CreateCapsulePlayer, Renderer, SetScreenRendererSize, cube, handleControl, useHooks, SetAnimationLoop, CreateScene } from '../engine/engine';
 import '../../assets/editor.scss';
+import { OrbitControls } from 'three/examples/jsm/Addons';
 
 interface Player {
   speed: number;
@@ -55,8 +56,11 @@ export default function Editor() {
     cubeMesh.rotation.y = 1;
     cubeMesh.position.y = -1;
     cubeMesh.position.z = -4;
+
+    const controls = new OrbitControls(camera, canvas);
+
     function animate() {
-      returnPlayer = handleControl(player);
+      //returnPlayer = handleControl(player);
       renderer.render( scene, camera );
       const d = document.getElementById('fps');
       if (d)

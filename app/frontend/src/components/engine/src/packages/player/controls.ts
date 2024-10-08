@@ -26,19 +26,19 @@ export function handleControl(player: Player) {
     window.addEventListener('keydown', (ev) => {
         switch(ev.key) {
             case 'w':
-                moveZ = speed;
+                moveZ = -speed;
                 stopUpdateSpeed = true;
                 //updateSpeed();
                 console.log('w a');
                 break;
             case 'a': 
-                moveZ = -speed;
+                moveX = -speed;
                 stopUpdateSpeed = true;
                 //updateSpeed();
                 console.log('a a');
                 break;
             case 's':
-                moveX = -speed;
+                moveZ = speed;
                 stopUpdateSpeed = true;
                 //updateSpeed();
                 console.log('s a');

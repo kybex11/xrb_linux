@@ -7,6 +7,7 @@ import { handleControl, removeHandler } from './src/packages/player/controls';
 import { DeChangePosition, CreateCapsulePlayer, DeChangeRotation } from './src/packages/player/player';
 import { CreatePerspectiveCamera, CreateOrthographicCamera } from './src/packages/camera/camera';
 import { CreateScene } from './src/packages/scene/scene';
+import { inspector } from './src/editor/inspector';
 
 export { useHooks, removeHooks }; 
 export { playAudio };
@@ -17,3 +18,4 @@ export { handleControl, removeHandler };
 export { DeChangePosition, CreateCapsulePlayer, DeChangeRotation };
 export { CreatePerspectiveCamera, CreateOrthographicCamera };
 export { CreateScene };
+export { inspector };
